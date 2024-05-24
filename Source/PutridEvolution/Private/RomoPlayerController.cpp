@@ -4,10 +4,74 @@
 #include "RomoPlayerController.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Interaction/EnemyInterface.h"
 
 ARomoPlayerController::ARomoPlayerController()
 {
 	bReplicates = true;
+}
+
+void ARomoPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	CursorTrace();
+}
+
+void ARomoPlayerController::CursorTrace()
+{
+	FHitResult CursorHit;
+	GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
+	if (!CursorHit.bBlockingHit) return;
+	LastActor = ThisActor;
+	ThisActor = CursorHit.GetActor();
+
+	/**
+	 * Line trace del cursor, hay varias posibilidades
+	 *	A. LastActor es Null && ThisActor es Null
+	 *		- No se hace nada
+	 *	B. LastActor es Null && ThisActor es valido
+	 *		- Highlight ThisActor
+	 *	C. LastActor es valido && ThisActor es null
+	 *		- UnHighlight LastActor
+	 *	D. Los dos son validos pero LastActor != ThisActor
+	 *		- UnHighlight LastActor, Highlight ThisActor
+	 *	E. Los dos son validos y son el mismo
+	 *		- No se hace nada
+	 */
+	if (LastActor == nullptr)
+	{
+		if(ThisActor != nullptr)
+		{
+			//Caso B
+			ThisActor->HighlightActor();
+		}
+		else
+		{
+			// Caso A. Los dos son nulos, no se hace nada
+		}
+	}
+	else //LastActor es valido
+	{
+		if (ThisActor == nullptr)
+		{
+			// Case C
+			LastActor->UnHighlightActor();
+		}
+		else //los dos actores son validos
+		{
+			if (LastActor != ThisActor)
+			{
+				// Caso D.
+				LastActor->UnHighlightActor();
+				ThisActor->HighlightActor();
+			}
+			else 
+			{
+				//Caso E, no se hace nada
+			}
+		}
+	}
 }
 
 void ARomoPlayerController::BeginPlay()
@@ -56,3 +120,5 @@ void ARomoPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
 	}
 }
+
+
