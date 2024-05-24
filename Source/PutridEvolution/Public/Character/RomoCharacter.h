@@ -13,5 +13,6 @@ UCLASS()
 class PUTRIDEVOLUTION_API ARomoCharacter : public ARomoCharacterBase
 {
 	GENERATED_BODY()
-	
+public:
+	ARomoCharacter();
 };
