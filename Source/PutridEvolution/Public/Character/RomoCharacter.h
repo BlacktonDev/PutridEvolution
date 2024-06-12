@@ -15,4 +15,9 @@ class PUTRIDEVOLUTION_API ARomoCharacter : public ARomoCharacterBase
 	GENERATED_BODY()
 public:
 	ARomoCharacter();
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+
+private:
+	void InitAbilityActorInfo();
 };

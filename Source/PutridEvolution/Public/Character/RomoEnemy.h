@@ -16,7 +16,13 @@ class PUTRIDEVOLUTION_API ARomoEnemy : public ARomoCharacterBase, public IEnemyI
 	GENERATED_BODY()
 public:
 	ARomoEnemy();
+
+	/** Enemy Interface */
 	virtual void HighlightActor() override;
 	virtual void UnHighlightActor() override;
+	/** end Enemy Interface */
+
+protected:
+	virtual void BeginPlay() override;
 	
 };

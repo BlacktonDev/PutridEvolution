@@ -13,6 +13,11 @@ ARomoCharacterBase::ARomoCharacterBase()
 	Weapon->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
+UAbilitySystemComponent* ARomoCharacterBase::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void ARomoCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
