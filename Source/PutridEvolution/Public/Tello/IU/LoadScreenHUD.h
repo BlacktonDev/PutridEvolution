@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "Widget/LoadScreenWidget.h"
+#include "ViewModel/MVVM_LoadScreen.h"
 #include "LoadScreenHUD.generated.h"
 
 /**
@@ -15,17 +17,17 @@ class PUTRIDEVOLUTION_API ALoadScreenHUD : public AHUD
 	GENERATED_BODY()
 public:
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "UI")
 	TSubclassOf<UUserWidget> LoadScreenWidgetClass;
 
-	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<ULoadScreenWidget> LoadScreenWidget;
+	UPROPERTY(BlueprintReadOnly, Category = "UI")
+	TObjectPtr<ULoadScreenWidget> LoadScreenWidget = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category = "ViewModel")
 	TSubclassOf<UMVVM_LoadScreen> LoadScreenViewModelClass;
 
-	UPROPERTY(BlueprintReadOnly)
-	TObjectPtr<UMVVM_LoadScreen> LoadScreenViewModel;
+	UPROPERTY(BlueprintReadOnly, Category = "ViewModel")
+	TObjectPtr<UMVVM_LoadScreen> LoadScreenViewModel = nullptr;
 protected:
 	virtual void BeginPlay() override;
 };
